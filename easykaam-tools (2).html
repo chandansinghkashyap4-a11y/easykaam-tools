@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251f">
+<title>EasyKaam Tools — Image Compressor & Resizer</title>
+<style>
+  :root{--ink:#10251f;--green:#216b4d;--lime:#b8f28b;--paper:#f5f7f4;--muted:#66756d;--line:#dce5de;--white:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:18px 14px 40px}
+  header{background:var(--ink);color:#fff;padding:22px;border-radius:20px;margin-bottom:16px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem}
+  .logo{background:var(--lime);color:var(--ink);border-radius:10px;padding:9px;display:inline-grid;place-items:center}
+  header h1{font-size:clamp(1.6rem,6vw,2.35rem);line-height:1.12;margin:22px 0 8px}
+  header p{color:#d5e5db;margin:0;line-height:1.5}
+  .privacy{display:inline-block;margin-top:14px;padding:7px 10px;border-radius:999px;background:#244438;color:#d9f8c6;font-size:.8rem}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+  .tab{border:1px solid var(--line);background:#fff;color:var(--ink);padding:13px 10px;border-radius:12px;font-weight:750;font-size:.95rem}
+  .tab.active{background:var(--lime);border-color:var(--lime)}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+  h2{margin:0 0 6px;font-size:1.3rem}
+  .sub{margin:0 0 18px;color:var(--muted);font-size:.93rem;line-height:1.5}
+  label{display:block;font-weight:700;font-size:.92rem;margin:15px 0 7px}
+  input[type=file],input[type=number],select{width:100%;font:inherit;border:1px solid #cbd8ce;border-radius:11px;padding:12px;background:#fff;color:var(--ink)}
+  input[type=range]{width:100%;accent-color:var(--green)}
+  .drop{border:1.5px dashed #9eb8a5;background:#f8fbf8;padding:18px;border-radius:14px;text-align:center}
+  .hint{font-size:.82rem;color:var(--muted);line-height:1.45;margin:7px 0 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .range-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .pill{background:#edf5ec;padding:5px 9px;border-radius:999px;font-size:.83rem;font-weight:750;white-space:nowrap}
+  .check{display:flex;align-items:center;gap:9px;margin-top:12px;font-size:.9rem}
+  .check input{width:18px;height:18px;accent-color:var(--green)}
+  button,.download{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 16px;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}
+  .primary{width:100%;background:var(--ink);color:#fff;margin-top:18px}
+  .primary:disabled{opacity:.45;cursor:not-allowed}
+  .secondary{background:var(--lime);color:var(--ink);width:100%;margin-top:10px}
+  .preview{display:none;margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:12px}
+  .preview img{display:block;max-width:100%;max-height:320px;margin:0 auto;border-radius:10px;object-fit:contain}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .stat{background:#f3f7f3;border-radius:10px;padding:10px}
+  .stat small{display:block;color:var(--muted);font-size:.76rem}
+  .stat strong{display:block;margin-top:3px;overflow-wrap:anywhere}
+  .status{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;font-size:.9rem;line-height:1.45}
+  .status.error{display:block;background:#fff0ee;color:#9a2e20}
+  .status.ok{display:block;background:#eef8e9;color:#235c35}
+  footer{color:var(--muted);font-size:.8rem;line-height:1.5;text-align:center;margin-top:18px}
+  .hidden{display:none!important}
+  @media(max-width:420px){.panel{padding:14px}.grid2{gap:8px}.tab{font-size:.88rem;padding:12px 6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="logo" aria-hidden="true">✦</span> EasyKaam Tools</div>
+    <h1>Your images,<br>made easier.</h1>
+    <p>Compress and resize photos in a few taps — right in your browser.</p>
+    <span class="privacy">🔒 Your selected image stays on your device</span>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Image tools">
+    <button class="tab active" id="compressTab" type="button" role="tab" aria-selected="true">▣ Image Compressor</button>
+    <button class="tab" id="resizeTab" type="button" role="tab" aria-selected="false">↗ Image Resizer</button>
+  </div>
+
+  <main class="panel">
+    <section id="compressPanel">
+      <h2>Image Compressor</h2>
+      <p class="sub">Reduce a photo's file size while keeping the image looking good.</p>
+    </section>
+    <section id="resizePanel" class="hidden">
+      <h2>Image Resizer</h2>
+      <p class="sub">Change the pixel dimensions of a photo. Aspect ratio can stay locked.</p>
+    </section>
+
+    <label for="fileInput">Choose an image</label>
+    <div class="drop">
+      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp">
+      <p class="hint">Use JPG, PNG or WebP when possible. Very large photos may take longer on older phones.</p>
+    </div>
+
+    <div id="compressControls">
+      <label for="quality" class="range-row"><span>Output quality</span><span class="pill" id="qualityValue">75%</span></label>
+      <input id="quality" type="range" min="10" max="100" value="75">
+      <p class="hint">Lower quality usually creates a smaller file. This tool exports JPEG, which does not preserve transparent backgrounds.</p>
+      <label for="format">Output format</label>
+      <select id="format">
+        <option value="image/jpeg">JPG — usually smaller</option>
+        <option value="image/webp">WebP — may be smaller</option>
+        <option value="image/png">PNG — larger, lossless</option>
+      </select>
+    </div>
+
+    <div id="resizeControls" class="hidden">
+      <div class="grid2">
+        <div>
+          <label for="widthInput">Width (pixels)</label>
+          <input id="widthInput" type="number" min="1" max="12000" inputmode="numeric" placeholder="e.g. 1080">
+        </div>
+        <div>
+          <label for="heightInput">Height (pixels)</label>
+          <input id="heightInput" type="number" min="1" max="12000" inputmode="numeric" placeholder="e.g. 1080">
+        </div>
+      </div>
+      <label class="check"><input id="lockRatio" type="checkbox" checked> Keep original aspect ratio</label>
+      <label for="resizeFormat">Output format</label>
+      <select id="resizeFormat">
+        <option value="image/jpeg">JPG</option>
+        <option value="image/png">PNG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+      <label for="resizeQuality" class="range-row"><span>Quality (for JPG/WebP)</span><span class="pill" id="resizeQualityValue">90%</span></label>
+      <input id="resizeQuality" type="range" min="10" max="100" value="90">
+    </div>
+
+    <button class="primary" id="processBtn" type="button" disabled>Choose an image first</button>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <section class="preview" id="preview">
+      <img id="previewImage" alt="Processed image preview">
+      <div class="stats">
+        <div class="stat"><small>Original file</small><strong id="originalStats">—</strong></div>
+        <div class="stat"><small>New file</small><strong id="newStats">—</strong></div>
+        <div class="stat"><small>Dimensions</small><strong id="dimensionsStats">—</strong></div>
+        <div class="stat"><small>File size change</small><strong id="savingStats">—</strong></div>
+      </div>
+      <a class="download secondary" id="downloadBtn" href="#" download="easykaam-image.jpg">⬇ Download image</a>
+    </section>
+  </main>
+  <footer>Free to use · No paid API · Image processing happens in this browser.<br>Keep a copy of your original photo. This is an early demo; test important documents before relying on it.</footer>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const fileInput = $('fileInput');
+  const processBtn = $('processBtn');
+  const status = $('status');
+  let currentFile = null;
+  let originalImage = null;
+  let originalUrl = null;
+  let outputUrl = null;
+  let mode = 'compress';
+  let originalWidth = 0;
+  let originalHeight = 0;
+
+  function showStatus(message, type) {
+    status.textContent = message;
+    status.className = 'status ' + type;
+  }
+  function clearStatus() {
+    status.textContent = '';
+    status.className = 'status';
+  }
+  function formatBytes(bytes) {
+    if (!Number.isFinite(bytes)) return 'Unknown';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+  function extensionFor(mime) {
+    if (mime === 'image/png') return 'png';
+    if (mime === 'image/webp') return 'webp';
+    return 'jpg';
+  }
+  function setMode(nextMode) {
+    mode = nextMode;
+    const compress = mode === 'compress';
+    $('compressTab').classList.toggle('active', compress);
+    $('resizeTab').classList.toggle('active', !compress);
+    $('compressTab').setAttribute('aria-selected', String(compress));
+    $('resizeTab').setAttribute('aria-selected', String(!compress));
+    $('compressPanel').classList.toggle('hidden', !compress);
+    $('resizePanel').classList.toggle('hidden', compress);
+    $('compressControls').classList.toggle('hidden', !compress);
+    $('resizeControls').classList.toggle('hidden', compress);
+    processBtn.textContent = currentFile ? (compress ? 'Compress image' : 'Resize image') : 'Choose an image first';
+    clearStatus();
+  }
+  $('compressTab').addEventListener('click', () => setMode('compress'));
+  $('resizeTab').addEventListener('click', () => setMode('resize'));
+  $('quality').addEventListener('input', () => $('qualityValue').textContent = $('quality').value + '%');
+  $('resizeQuality').addEventListener('input', () => $('resizeQualityValue').textContent = $('resizeQuality').value + '%');
+
+  fileInput.addEventListener('change', () => {
+    clearStatus();
+    const file = fileInput.files && fileInput.files[0];
+    currentFile = null;
+    originalImage = null;
+    if (originalUrl) URL.revokeObjectURL(originalUrl);
+    originalUrl = null;
+    $('preview').style.display = 'none';
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
+    outputUrl = null;
+
+    if (!file) {
+      processBtn.disabled = true;
+      processBtn.textContent = 'Choose an image first';
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      showStatus('Please choose a valid image file.', 'error');
+      processBtn.disabled = true;
+      return;
+    }
+    currentFile = file;
+    originalUrl = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      originalImage = img;
+      originalWidth = img.naturalWidth;
+      originalHeight = img.naturalHeight;
+      $('widthInput').value = originalWidth;
+      $('heightInput').value = originalHeight;
+      processBtn.disabled = false;
+      processBtn.textContent = mode === 'compress' ? 'Compress image' : 'Resize image';
+      showStatus('Image ready: ' + originalWidth + ' × ' + originalHeight + ' pixels.', 'ok');
+    };
+    img.onerror = () => {
+      showStatus('This image could not be opened. Try a JPG, PNG or WebP photo.', 'error');
+      processBtn.disabled = true;
+      processBtn.textContent = 'Choose another image';
+    };
+    img.src = originalUrl;
+  });
+
+  $('widthInput').addEventListener('input', () => {
+    if (!$('lockRatio').checked || !originalWidth) return;
+    const width = Number($('widthInput').value);
+    if (width > 0) $('heightInput').value = Math.max(1, Math.round(width * originalHeight / originalWidth));
+  });
+  $('heightInput').addEventListener('input', () => {
+    if (!$('lockRatio').checked || !originalHeight) return;
+    const height = Number($('heightInput').value);
+    if (height > 0) $('widthInput').value = Math.max(1, Math.round(height * originalWidth / originalHeight));
+  });
+  $('lockRatio').addEventListener('change', () => {
+    if ($('lockRatio').checked && originalWidth && originalHeight) {
+      const width = Number($('widthInput').value) || originalWidth;
+      $('heightInput').value = Math.max(1, Math.round(width * originalHeight / originalWidth));
+    }
+  });
+
+  function canvasBlob(canvas, mime, quality) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (blob) resolve(blob);
+        else reject(new Error('Your browser could not create this format. Choose JPG or PNG and try again.'));
+      }, mime, quality);
+    });
+  }
+
+  processBtn.addEventListener('click', async () => {
+    if (!currentFile || !originalImage) {
+      showStatus('Choose an image first.', 'error');
+      return;
+    }
+    clearStatus();
+    processBtn.disabled = true;
+    processBtn.textContent = 'Processing…';
+    try {
+      let width, height, mime, quality;
+      if (mode === 'compress') {
+        width = originalWidth;
+        height = originalHeight;
+        mime = $('format').value;
+        quality = Number($('quality').value) / 100;
+      } else {
+        width = Number($('widthInput').value);
+        height = Number($('heightInput').value);
+        mime = $('resizeFormat').value;
+        quality = Number($('resizeQuality').value) / 100;
+        if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > 12000 || height > 12000) {
+          throw new Error('Enter a width and height between 1 and 12000 pixels.');
+        }
+      }
+      if (width * height > 40000000) {
+        throw new Error('That output is too large for this demo. Try dimensions with 40 megapixels or less.');
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas is not supported in this browser.');
+      if (mime === 'image/jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+      }
+      ctx.drawImage(originalImage, 0, 0, width, height);
+      const blob = await canvasBlob(canvas, mime, quality);
+      if (outputUrl) URL.revokeObjectURL(outputUrl);
+      outputUrl = URL.createObjectURL(blob);
+      $('previewImage').src = outputUrl;
+      $('originalStats').textContent = formatBytes(currentFile.size);
+      $('newStats').textContent = formatBytes(blob.size);
+      $('dimensionsStats').textContent = width + ' × ' + height;
+      const change = currentFile.size ? ((currentFile.size - blob.size) / currentFile.size) * 100 : 0;
+      $('savingStats').textContent = change >= 0 ? change.toFixed(1) + '% smaller' : Math.abs(change).toFixed(1) + '% larger';
+      $('downloadBtn').href = outputUrl;
+      $('downloadBtn').download = 'easykaam-' + (mode === 'compress' ? 'compressed' : 'resized') + '.' + extensionFor(blob.type || mime);
+      $('preview').style.display = 'block';
+      showStatus(change > 0 ? 'Done! Your new image is smaller.' : (change < 0 ? 'Done! The output is larger than the original; try lower quality or smaller dimensions.' : 'Done! Download your processed image below.'), 'ok');
+      $('preview').scrollIntoView({behavior:'smooth', block:'nearest'});
+    } catch (err) {
+      showStatus(err && err.message ? err.message : 'Something went wrong. Please try again.', 'error');
+    } finally {
+      processBtn.disabled = false;
+      processBtn.textContent = mode === 'compress' ? 'Compress image' : 'Resize image';
+    }
+  });
+
+  window.addEventListener('beforeunload', () => {
+    if (originalUrl) URL.revokeObjectURL(originalUrl);
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
+  });
+})();
+</script>
+</body>
+</html>
