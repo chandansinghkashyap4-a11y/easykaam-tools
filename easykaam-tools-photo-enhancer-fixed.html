@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="EasyKaam Tools — free browser-based photo, video and PDF utilities.">
+<title>EasyKaam Tools — Creative Tools Studio</title>
+<style>
+:root{--bg:#0a0f1e;--surface:#111a2d;--surface2:#172239;--line:#273550;--text:#edf3ff;--muted:#9ba9c2;--accent:#9b8cff;--accent2:#56d6c5;--good:#80e0a5;--danger:#ff8d9a;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 70% -20%,#2a2456 0,transparent 40%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}
+.sidebar{position:sticky;top:0;height:100vh;padding:24px 16px;background:#0b1222eF;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:25px;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px;font-weight:850;letter-spacing:-.4px}.brand-mark{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#5ccef0);color:#101328;font-size:22px;box-shadow:0 8px 25px #8d7cff55}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:600;letter-spacing:1.5px;margin-top:2px}
+.nav-label{font-size:10px;color:#73829e;font-weight:800;letter-spacing:1.5px;padding:0 12px;margin-bottom:8px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:var(--muted);text-align:left;padding:12px;border-radius:12px;display:flex;align-items:center;gap:12px;font-weight:650}.nav button:hover,.nav button.active{background:linear-gradient(100deg,#8d7cff2b,#55d5c51a);color:var(--text)}.nav button.active{box-shadow:inset 3px 0 var(--accent)}.ico{width:20px;text-align:center;font-size:17px}.side-note{margin-top:auto;padding:14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#1b2540,#111a2d);font-size:12px;color:var(--muted);line-height:1.55}.side-note strong{display:block;color:var(--text);font-size:13px;margin-bottom:4px}
+.main{min-width:0;padding:26px clamp(16px,4vw,48px) 50px;max-width:1600px;width:100%;margin:auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:30px}.crumb{font-size:13px;color:var(--muted)}.top-actions{display:flex;gap:9px;align-items:center}.chip,.icon-btn{border:1px solid var(--line);background:#111a2d;color:var(--text);border-radius:999px;padding:9px 13px;font-size:12px}.icon-btn{width:38px;height:38px;padding:0;border-radius:12px;font-size:17px}
+.hero{position:relative;overflow:hidden;padding:clamp(22px,4vw,38px);border:1px solid #7469bb66;border-radius:25px;background:linear-gradient(115deg,#24234b 0%,#182b48 58%,#123a43 100%);box-shadow:var(--shadow);margin-bottom:25px}.hero:after{content:"✦";position:absolute;right:7%;top:-50px;font-size:230px;color:#ffffff0a;pointer-events:none}.eyebrow{color:#c5bfff;text-transform:uppercase;font-size:10px;letter-spacing:2px;font-weight:850}.hero h1{font-size:clamp(29px,4vw,46px);line-height:1.08;letter-spacing:-1.8px;margin:12px 0}.hero p{max-width:600px;color:#d0d8ec;line-height:1.65;margin:0}.hero-bottom{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.hero-tag{font-size:11px;border:1px solid #ffffff30;background:#ffffff12;padding:8px 11px;border-radius:99px;color:#e7ebff}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 14px}.section-head h2{font-size:19px;margin:0;letter-spacing:-.4px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.search{width:min(280px,100%);border:1px solid var(--line);background:var(--surface);border-radius:12px;color:var(--text);padding:11px 13px;outline:none}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.tool-card{border:1px solid var(--line);background:linear-gradient(150deg,#151f34,#10182a);border-radius:18px;padding:18px;text-align:left;color:var(--text);transition:.2s;min-width:0}.tool-card:hover{transform:translateY(-3px);border-color:#8276d9;box-shadow:0 12px 30px #0003}.tool-icon{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:#8d7cff25;margin-bottom:15px}.tool-card h3{font-size:15px;margin:0 0 7px}.tool-card p{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 14px}.tool-link{font-size:11px;color:#bcb4ff;font-weight:800}.tag{display:inline-block;font-size:9px;color:#9ce6cf;background:#4bd0a31c;padding:5px 8px;border-radius:99px;margin-bottom:9px}.tag.soon{color:#c7c0ff;background:#8d7cff20}
+.workspace{display:none;border:1px solid var(--line);border-radius:22px;background:#111a2d;padding:clamp(16px,3vw,26px);box-shadow:var(--shadow)}.workspace.show{display:block}.workspace-head{display:flex;justify-content:space-between;align-items:start;gap:15px;margin-bottom:20px}.workspace h2{margin:0 0 6px;font-size:22px}.muted{color:var(--muted);font-size:13px;line-height:1.5;margin:0}.back{border:1px solid var(--line);background:#1a2640;color:var(--text);padding:9px 12px;border-radius:10px}
+.tool-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.9fr);gap:18px}.drop{border:1.5px dashed #596b91;border-radius:16px;padding:24px;text-align:center;background:#0d1628}.drop input{width:100%;max-width:340px;margin:12px auto;color:var(--muted)}.drop strong{display:block;margin:6px 0}.preview{width:100%;max-height:390px;object-fit:contain;background:#080d18;border-radius:13px;margin-top:15px;display:none}.controls{border:1px solid var(--line);border-radius:16px;padding:17px;background:#0e1729}.controls label{display:block;font-size:12px;color:#c5d0e5;font-weight:700;margin:14px 0 7px}.controls input[type=range]{width:100%;accent-color:var(--accent)}.controls input[type=number],.controls select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#111c31;color:var(--text)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{display:flex!important;align-items:center;gap:8px}.btn{border:0;border-radius:11px;padding:12px 15px;font-weight:800;color:#111329;background:linear-gradient(100deg,#b1a6ff,#73e3d2)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.full{width:100%;margin-top:17px}.btn.ghost{background:#202c46;color:var(--text);border:1px solid var(--line)}.result{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}.status{padding:10px 12px;border-radius:10px;margin-top:12px;font-size:12px;display:none}.status.show{display:block;background:#173b35;color:#a8f0ca}.status.err{background:#451f2b;color:#ffb7c0}.video-preview{width:100%;max-height:390px;background:#050810;border-radius:13px;margin-top:14px;display:none}
+.notice{border:1px solid #665a9a66;background:#8d7cff12;color:#c9c4ed;border-radius:13px;padding:13px;font-size:11px;line-height:1.6;margin-top:15px}
+.empty{color:var(--muted);font-size:12px;text-align:center;padding:20px}.footer{border-top:1px solid var(--line);margin-top:38px;padding-top:18px;color:#7786a2;font-size:11px;line-height:1.6;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.light{--bg:#f3f5fb;--surface:#fff;--surface2:#edf0f8;--line:#dce1ee;--text:#17213a;--muted:#63708a;background:var(--bg);color:var(--text)}.light .sidebar{background:#fff;border-color:var(--line)}.light .nav button:hover,.light .nav button.active{background:#eeeaff;color:#322c68}.light .tool-card,.light .workspace,.light .controls{background:#fff}.light .search,.light .chip,.light .icon-btn,.light .controls input[type=number],.light .controls select{background:#fff;color:var(--text)}.light .drop{background:#f7f8fc}.light .side-note{background:#f4f2ff}.light .hero{background:linear-gradient(115deg,#e8e4ff,#dceeff 60%,#d9f7ef)}.light .hero p{color:#45516b}.light .hero-tag{color:#39435d;border-color:#7d83a344;background:#ffffff70}.light .eyebrow{color:#6256a5}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.app{grid-template-columns:215px minmax(0,1fr)}}
+@media(max-width:720px){.app{display:block}.sidebar{position:relative;height:auto;padding:13px 14px;border-right:0;border-bottom:1px solid var(--line);gap:12px}.brand{padding:0 3px}.nav-label,.side-note{display:none}.nav{display:flex;overflow-x:auto;padding-bottom:2px}.nav button{white-space:nowrap;padding:9px 11px;font-size:12px}.main{padding:18px 14px 35px}.topbar{margin-bottom:18px}.tool-layout{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool-card{padding:14px}.tool-card h3{font-size:13px}.tool-card p{font-size:11px}.hero{border-radius:19px}.section-head{align-items:start;flex-direction:column}.search{width:100%}}
+@media(max-width:390px){.cards{grid-template-columns:1fr}.top-actions .chip{display:none}.workspace-head{flex-direction:column}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">✦</span><span>EasyKaam Tools<small>CREATIVE WORKSPACE</small></span></div>
+  <div><div class="nav-label">WORKSPACE</div><nav class="nav">
+    <button class="active" data-page="home"><span class="ico">⌂</span> Dashboard</button>
+    <button data-page="photo"><span class="ico">▧</span> Photo Studio</button>
+    <button data-page="video"><span class="ico">▷</span> Video Studio</button>
+    <button data-page="pdf"><span class="ico">▤</span> PDF Studio</button>
+  </nav></div>
+  <div><div class="nav-label">PREFERENCES</div><nav class="nav">
+    <button data-page="projects"><span class="ico">◷</span> My Projects</button>
+    <button data-page="help"><span class="ico">?</span> Help & Guide</button>
+    <button data-page="about"><span class="ico">✧</span> About EasyKaam</button>
+  </nav></div>
+  <div class="side-note"><strong>✦ Free creative tools</strong>Useful tools for everyday work. Your selected files are processed on your device wherever browser support allows.</div>
+</aside>
+<main class="main">
+  <div class="topbar"><div class="crumb" id="crumb">Workspace / Dashboard</div><div class="top-actions"><span class="chip">✦ All tools free</span><button class="icon-btn" id="themeBtn" title="Toggle light and dark mode">☼</button></div></div>
+  <section id="homePage">
+    <div class="hero"><div class="eyebrow">Your all-in-one creative workspace</div><h1>Make more. Do it<br>the easier way.</h1><p>Simple, useful photo, video and document tools in one polished workspace. No subscription required to use the available tools.</p><div class="hero-bottom"><span class="hero-tag">🔒 Browser-first privacy</span><span class="hero-tag">✦ Free tools</span><span class="hero-tag">↔ Mobile & desktop</span></div></div>
+    <div class="section-head"><div><h2>Explore your tools</h2><p>Choose a tool to get started.</p></div><input class="search" id="toolSearch" placeholder="⌕ Search tools..."></div>
+    <div class="cards" id="toolCards">
+      <button class="tool-card" data-open="photo"><span class="tag">AVAILABLE</span><div class="tool-icon">▧</div><h3>Natural Photo Enhancer</h3><p>Adjust brightness, contrast, colour and subtle sharpness without AI face changes.</p><span class="tool-link">Open Photo Studio →</span></button>
+      <button class="tool-card" data-open="compress"><span class="tag">AVAILABLE</span><div class="tool-icon">⇣</div><h3>Image Compressor</h3><p>Reduce image file size with adjustable output quality and format.</p><span class="tool-link">Compress image →</span></button>
+      <button class="tool-card" data-open="resize"><span class="tag">AVAILABLE</span><div class="tool-icon">⤢</div><h3>Image Resizer</h3><p>Change image dimensions while keeping the original aspect ratio.</p><span class="tool-link">Resize image →</span></button>
+      <button class="tool-card" data-open="video"><span class="tag">BROWSER PREVIEW</span><div class="tool-icon">▷</div><h3>Video Adjustments</h3><p>Preview natural brightness, contrast and saturation adjustments.</p><span class="tool-link">Open Video Studio →</span></button>
+      <button class="tool-card" data-open="pdf"><span class="tag soon">PLANNED</span><div class="tool-icon">▤</div><h3>PDF Studio</h3><p>PDF utilities are planned for a future update.</p><span class="tool-link">View roadmap →</span></button>
+      <button class="tool-card" data-open="projects"><span class="tag soon">LOCAL SESSION</span><div class="tool-icon">◷</div><h3>My Projects</h3><p>See a note about how project history works in this browser demo.</p><span class="tool-link">View details →</span></button>
+    </div>
+  </section>
+
+  <section class="workspace" id="photoWorkspace">
+    <div class="workspace-head"><div><h2>Photo Studio</h2><p class="muted">Natural adjustments — preserve the original look and facial identity.</p></div><button class="back" data-back>← Dashboard</button></div>
+    <div class="tool-layout"><div><div class="drop"><div style="font-size:28px">▧</div><strong>Choose a photo to get started</strong><span class="muted">JPG, PNG or WebP · Processed in this browser</span><input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp,image/bmp"></div><img class="preview" id="imagePreview" alt="Enhanced image preview"><div class="status" id="imageStatus" role="status"></div></div>
+    <div class="controls"><div class="two"><button class="btn ghost" id="modeEnhance">Natural Enhance</button><button class="btn ghost" id="modeCompress">Compress</button></div>
+      <label for="brightness">Brightness <output id="brightnessVal">100%</output></label><input id="brightness" type="range" min="60" max="150" value="100">
+      <label for="contrast">Contrast <output id="contrastVal">100%</output></label><input id="contrast" type="range" min="60" max="160" value="100">
+      <label for="saturation">Colour <output id="saturationVal">100%</output></label><input id="saturation" type="range" min="0" max="160" value="100">
+      <label for="sharpness">Sharpness <output id="sharpnessVal">0</output></label><input id="sharpness" type="range" min="0" max="100" step="5" value="0">
+      <label for="upscale">Output resolution</label><select id="upscale"><option value="1">Original size (1×)</option><option value="2">HD upscale (2×)</option><option value="4">4× upscale</option></select>
+      <div id="compressOptions" class="hidden"><label for="imgQuality">JPEG quality <output id="imgQualityVal">82%</output></label><input id="imgQuality" type="range" min="20" max="100" value="82"></div>
+      <button class="btn full" id="applyImage" disabled>Apply & prepare download</button><button class="btn ghost full" id="resetImage" type="button">Reset adjustments</button><a class="btn full hidden" id="downloadImage" download="easykaam-enhanced.jpg" style="text-decoration:none;text-align:center">↓ Download photo</a><div class="result" id="imageInfo">Choose an image. Your original file will not be overwritten.</div></div></div>
+    <div class="notice">Natural enhancement uses browser image adjustments, not generative AI restoration. It can improve appearance but cannot recover detail that was never captured. The original image remains unchanged.</div>
+  </section>
+
+  <section class="workspace" id="videoWorkspace">
+    <div class="workspace-head"><div><h2>Video Studio</h2><p class="muted">Preview natural colour and lighting adjustments in your browser.</p></div><button class="back" data-back>← Dashboard</button></div>
+    <div class="tool-layout"><div><div class="drop"><div style="font-size:28px">▷</div><strong>Choose a video</strong><span class="muted">Select a video supported by your browser.</span><input type="file" id="videoFile" accept="video/*"></div><video class="video-preview" id="videoPreview" controls playsinline></video><div class="status" id="videoStatus" role="status"></div></div>
+    <div class="controls"><label for="vBrightness">Brightness <output id="vBrightnessVal">100%</output></label><input id="vBrightness" type="range" min="60" max="140" value="100">
+      <label for="vContrast">Contrast <output id="vContrastVal">100%</output></label><input id="vContrast" type="range" min="60" max="150" value="100">
+      <label for="vSaturation">Saturation <output id="vSaturationVal">100%</output></label><input id="vSaturation" type="range" min="0" max="160" value="100">
+      <button class="btn full" id="applyVideo" disabled>Apply preview adjustments</button><button class="btn ghost full" id="resetVideo">Reset video adjustments</button><div class="result" id="videoInfo">Video preview adjustments are visual only in this starter version. Export is not enabled yet.</div></div></div>
+    <div class="notice">This first release does not export an enhanced video or create true 4K/8K detail. Reliable video export requires a separate encoding pipeline; 8K processing also depends heavily on device hardware, memory and browser support. We will not label simple upscaling as genuine 8K enhancement.</div>
+  </section>
+
+  <section class="workspace" id="pdfWorkspace"><div class="workspace-head"><div><h2>PDF Studio</h2><p class="muted">Document tools roadmap</p></div><button class="back" data-back>← Dashboard</button></div><div class="empty">PDF to image, image to PDF and PDF compression are planned. These tools are not active in this version yet.</div></section>
+  <section class="workspace" id="projectsWorkspace"><div class="workspace-head"><div><h2>My Projects</h2><p class="muted">Your privacy and project history</p></div><button class="back" data-back>← Dashboard</button></div><div class="empty">This version does not upload or store your files in an account. Your browser may keep temporary download history, but this page does not maintain a cloud project library.</div></section>
+  <section class="workspace" id="helpWorkspace"><div class="workspace-head"><div><h2>Help & Guide</h2><p class="muted">Quick start</p></div><button class="back" data-back>← Dashboard</button></div><div class="controls"><p class="muted">1. Open Photo Studio or Video Studio.<br><br>2. Select a file from your device.<br><br>3. Adjust the sliders and preview the result.<br><br>4. Download only when the tool offers an active download link. Keep your original file as a backup.</p></div></section>
+  <section class="workspace" id="aboutWorkspace"><div class="workspace-head"><div><h2>About EasyKaam Tools</h2><p class="muted">Useful tools, made easier.</p></div><button class="back" data-back>← Dashboard</button></div><div class="controls"><p class="muted">EasyKaam Tools is an independent utility website project. The goal is to provide accessible, browser-first tools for everyday creative tasks. Some features shown in the roadmap are not available yet.</p></div></section>
+  <footer><span>© <span id="year"></span> EasyKaam Tools · Free tools workspace</span><span>Designed for mobile, tablet and desktop · Keep original files backed up</span></footer>
+</main>
+</div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const pages=['home','photo','video','pdf','projects','help','about'];
+function showPage(page){pages.forEach(p=>{const el=$(p+'Page')||$(p+'Workspace');if(el)el.classList.toggle('show',p!=='home'&&p===page)});$('homePage').style.display=page==='home'?'block':'none';document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('crumb').textContent='Workspace / '+(page==='home'?'Dashboard':page[0].toUpperCase()+page.slice(1));window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showPage('home')));
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.open;if(p==='compress'||p==='resize'){$('modeCompress').click();showPage('photo')}else showPage(p)}));
+$('themeBtn').addEventListener('click',()=>document.body.classList.toggle('light'));
+$('year').textContent=new Date().getFullYear();
+$('toolSearch').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#toolCards .tool-card').forEach(c=>c.style.display=c.innerText.toLowerCase().includes(q)?'block':'none')});
+
+// Photo editor
+let sourceImage=null,sourceFile=null,imageUrl=null,resultUrl=null,photoMode='enhance';
+const imageFile=$('imageFile'),imagePreview=$('imagePreview');
+function photoStatus(msg,error=false){$('imageStatus').textContent=msg;$('imageStatus').className='status show'+(error?' err':'')}
+function resetPhotoControls(){['brightness','contrast','saturation'].forEach(id=>$(id).value=100);$('sharpness').value=0;$('upscale').value='1';$('imgQuality').value=90;updatePhotoLabels();imagePreview.style.filter='none';$('downloadImage').classList.add('hidden')}
+function updatePhotoLabels(){[['brightness','brightnessVal','%'],['contrast','contrastVal','%'],['saturation','saturationVal','%'],['sharpness','sharpnessVal','%'],['imgQuality','imgQualityVal','%']].forEach(([a,b,s])=>$(b).textContent=$(a).value+s);if(sourceImage)imagePreview.style.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturation').value}%)`; }
+['brightness','contrast','saturation','sharpness','imgQuality'].forEach(id=>$(id).addEventListener('input',updatePhotoLabels));
+imageFile.addEventListener('change',()=>{const f=imageFile.files&&imageFile.files[0];if(!f)return;if(!f.type.startsWith('image/')){photoStatus('Please choose a valid image file.',true);return}sourceFile=f;if(imageUrl)URL.revokeObjectURL(imageUrl);imageUrl=URL.createObjectURL(f);const img=new Image();img.onload=()=>{sourceImage=img;imagePreview.src=imageUrl;imagePreview.style.display='block';$('applyImage').disabled=false;$('imageInfo').textContent=`Original: ${img.naturalWidth} × ${img.naturalHeight}px · ${(f.size/1048576).toFixed(2)} MB`;photoStatus('Photo loaded. Adjust the sliders and preview.');resetPhotoControls()};img.onerror=()=>photoStatus('This image could not be opened in this browser.',true);img.src=imageUrl;});
+$('modeEnhance').addEventListener('click',()=>{photoMode='enhance';$('compressOptions').classList.add('hidden');$('modeEnhance').classList.remove('ghost');$('modeCompress').classList.add('ghost')});
+$('modeCompress').addEventListener('click',()=>{photoMode='compress';$('compressOptions').classList.remove('hidden');$('modeCompress').classList.remove('ghost');$('modeEnhance').classList.add('ghost')});
+$('resetImage').addEventListener('click',resetPhotoControls);
+$('applyImage').addEventListener('click',()=>{if(!sourceImage)return;try{
+  const scale=photoMode==='compress'?1:Number($('upscale').value);
+  const w=sourceImage.naturalWidth,h=sourceImage.naturalHeight,outW=Math.round(w*scale),outH=Math.round(h*scale);
+  // Keep browser memory use reasonable on phones.
+  if(outW*outH>16000000)throw Error('This output is too large for safe processing on this phone. Choose 1× or 2×.');
+  const canvas=document.createElement('canvas');canvas.width=outW;canvas.height=outH;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});if(!ctx)throw Error('Canvas is not supported.');
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  ctx.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturation').value}%)`;
+  ctx.drawImage(sourceImage,0,0,outW,outH);ctx.filter='none';
+  const amount=Number($('sharpness').value);
+  if(amount>0 && photoMode!=='compress'){
+    const frame=ctx.getImageData(0,0,outW,outH),src=frame.data,dst=new Uint8ClampedArray(src);
+    const strength=amount/100, mix=Math.min(.85,strength*.85);
+    // 3×3 unsharp kernel; edge pixels are left intact.
+    for(let y=1;y<outH-1;y++)for(let x=1;x<outW-1;x++){
+      const i=(y*outW+x)*4;
+      for(let c=0;c<3;c++){
+        const blur=(src[i-4+c]+src[i+4+c]+src[i-outW*4+c]+src[i+outW*4+c])/4;
+        dst[i+c]=src[i+c]+(src[i+c]-blur)*mix;
+      }
+    }
+    frame.data.set(dst);ctx.putImageData(frame,0,0);
+  }
+  const mime='image/jpeg';
+  canvas.toBlob(blob=>{if(!blob){photoStatus('Could not create the output. Try a smaller photo.',true);return}
+    if(resultUrl)URL.revokeObjectURL(resultUrl);resultUrl=URL.createObjectURL(blob);
+    const link=$('downloadImage');link.href=resultUrl;link.download=photoMode==='compress'?'easykaam-compressed.jpg':'easykaam-hd-enhanced.jpg';link.classList.remove('hidden');
+    imagePreview.src=resultUrl;imagePreview.style.filter='none';imagePreview.style.display='block';
+    $('imageInfo').textContent=`Output: ${outW} × ${outH}px (${scale}×) · ${(blob.size/1048576).toFixed(2)} MB · Original file remains unchanged.`;
+    photoStatus('Enhancement complete. The processed result is now shown above.');
+  },mime,Number($('imgQuality').value)/100);
+}catch(e){photoStatus(e.message||'Could not process this image.',true)}});
+// Video preview adjustments only
+let videoUrl=null;const video=$('videoPreview');const vSliders=['vBrightness','vContrast','vSaturation'];
+function updateVideoFilter(){const b=$('vBrightness').value,c=$('vContrast').value,s=$('vSaturation').value;vSliders.forEach((id,i)=>$(id+'Val').textContent=$(id).value+'%');video.style.filter=`brightness(${b}%) contrast(${c}%) saturate(${s}%)`;}
+vSliders.forEach(id=>$(id).addEventListener('input',updateVideoFilter));
+$('videoFile').addEventListener('change',()=>{const f=$('videoFile').files&&$('videoFile').files[0];if(!f)return;if(!f.type.startsWith('video/')){$('videoStatus').textContent='Please select a valid video.';$('videoStatus').className='status show err';return}if(videoUrl)URL.revokeObjectURL(videoUrl);videoUrl=URL.createObjectURL(f);video.src=videoUrl;video.style.display='block';$('applyVideo').disabled=false;$('videoStatus').textContent='Video loaded. Adjustments are available for preview.';$('videoStatus').className='status show';$('videoInfo').textContent=`Selected: ${f.name} · ${(f.size/1048576).toFixed(2)} MB. Preview only; no export in this version.`;});
+$('applyVideo').addEventListener('click',()=>{updateVideoFilter();$('videoStatus').textContent='Preview adjustments applied. Export is not available in this starter version.';$('videoStatus').className='status show';});
+$('resetVideo').addEventListener('click',()=>{vSliders.forEach(id=>$(id).value=100);updateVideoFilter()});
+window.addEventListener('beforeunload',()=>{if(imageUrl)URL.revokeObjectURL(imageUrl);if(resultUrl)URL.revokeObjectURL(resultUrl);if(videoUrl)URL.revokeObjectURL(videoUrl)});
+})();
+</script>
+</body></html>
